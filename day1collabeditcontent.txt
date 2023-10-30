@@ -1,0 +1,798 @@
+package com.boa.training.functional;
+
+public interface Sample {
+    String message(String name);
+}
+
+
+package com.boa.training.functional;
+
+public class SampleImpl implements Sample{
+
+    @Override
+    public String message(String name) {
+        // TODO Auto-generated method stub
+        return "Testing "+name;
+    }
+
+}
+
+
+package com.boa.training.functional;
+
+public class Test1 {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+
+        Sample sample=new SampleImpl();
+        System.out.println(sample.message("Arvind"));
+    }
+
+}
+
+
+package com.boa.training.functional;
+
+public interface Sample {
+    String message(String name);
+}
+
+
+package com.boa.training.functional;
+
+public class SampleImpl implements Sample{
+
+    @Override
+    public String message(String name) {
+        // TODO Auto-generated method stub
+        return "Testing "+name;
+    }
+
+}
+
+
+package com.boa.training.functional;
+
+public class Test1 {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+
+        Sample sample=new SampleImpl();
+        System.out.println(sample.message("Arvind"));
+    }
+
+}
+
+
+package com.boa.training.functional;
+
+public class TestWithAnonymousClass {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        //Anonymous class
+        Sample sample=new Sample() {//equivalent to creating a class which implements Sample interface
+            //and overriding the message method
+
+            @Override
+            public String message(String name) {
+                // TODO Auto-generated method stub
+                return "Testing with anonymous class "+name;
+            }
+            
+        };
+        System.out.println(sample.message("Arvind"));
+    }
+
+}
+
+
+package com.boa.training.functional;
+
+public class LambdaTest1 {
+public static void main(String[] args) {
+    Sample sample=s->"Welcome to Java 8 "+s;
+    System.out.println(sample.message("Arvind"));
+}
+}
+
+
+package com.boa.training.functional;
+
+interface A{
+    int compute(int a,int b);
+    default String test() {
+        return "Hello";
+    }
+}
+public class LambdaTest2 {
+    public static void main(String[] args) {
+        A a1=(a,b)->{
+            System.out.println("first parameter: "+a);
+            System.out.println("second parameter: "+b);
+            return a+b;
+        };
+        System.out.println(a1.compute(10, 20));
+        a1=(a,b)->a*b;
+        System.out.println(a1.compute(10, 20));
+        System.out.println(a1.test());
+        a1=(a,b)->{
+            if(a>b) return a; 
+            else return b;
+        };
+        System.out.println(a1.compute(10, 20));
+    }
+
+}
+
+
+package com.boa.training.functional;
+
+interface B{
+    String test();
+    default void printData() {
+        System.out.println("data: "+test());
+    }
+}
+public class LambdaTest3 {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        B b=()->"Hello";
+        b.printData();
+    }
+
+}
+
+package com.boa.training.functional;
+
+interface B{
+    String test();
+    default void printData() {
+        System.out.println("data: "+test());
+    }
+}
+interface C{
+int compute(String s);  
+}
+
+interface D{
+String compute(String s1,int i);
+}
+public class LambdaTest3 {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        B b=()->{
+            return "Hello";
+        };
+        //can also be written as B b=()->"Hello";
+        b.printData();
+        C c=s->s.length();
+        D d=(s,a)->s.substring(a);
+        System.out.println(c.compute("hello world"));
+        System.out.println(d.compute("testing", 4));
+    }
+
+}
+
+
+package com.boa.training.functional;
+class Person{
+    private String name;
+    private String gender;
+    private int age;
+    public Person(String name, String gender, int age) {
+        super();
+        this.name = name;
+        this.gender = gender;
+        this.age = age;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getGender() {
+        return gender;
+    }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+    @Override
+    public String toString() {
+        return "Person [name=" + name + ", gender=" + gender + ", age=" + age + "]";
+    }
+    
+    
+}
+
+interface E{
+    String getDetail(Person p);
+}
+public class LambdaTest4 {
+public static void main(String[] args) {
+    E e=p->p.getName();
+    Person p1=new Person("Arvind", "Male", 22);
+    System.out.println(e.getDetail(p1));
+}
+}
+
+
+package com.boa.training.functional;
+
+import java.util.HashMap;
+import java.util.Map;
+
+class PersonList{
+    private Map<String, Person> list=new HashMap<String, Person>();
+    
+    PersonList() {
+        list.put("Arvind", new Person("Arvind","Male", 30));
+        list.put("Surya", new Person("Surya","Male", 28));
+        list.put("Priya", new Person("Priya","Female", 25));
+    }
+    
+    public Person getPerson(String name) {
+        return list.get(name);
+    }
+    
+}
+
+interface F{
+    Person details(String name);
+}
+public class LambdaTest5 {
+public static void main(String[] args) {
+    PersonList list=new PersonList();
+    F f=n->list.getPerson(n);
+    System.out.println(f.details("Surya"));
+}
+}
+
+
+package com.boa.training.functional;
+class Number{
+    private int i;
+    private int j;
+    public Number(int i, int j) {
+        super();
+        this.i = i;
+        this.j = j;
+    }
+    @Override
+    public String toString() {
+        return "Number [i=" + i + ", j=" + j + "]";
+    }
+    
+}
+
+interface G{
+    Number data(int x,int y);
+}
+
+public class LambdaTest6 {
+public static void main(String[] args) {
+    G g=(a,b)->new Number(a,b);
+    System.out.println(g.data(10, 20));
+}
+}
+
+package com.boa.training.functional;
+
+import java.util.Set;
+import java.util.TreeSet;
+
+interface H{
+    String getMessage(String name);
+}
+
+public class LambdaTest7 {
+
+    public static void main(String[] args) {
+        doSomething(a->"Do well "+a, "Rakesh");
+        doSomething(a->"welcome:"+a.toUpperCase(), "amar");
+        Thread t=new Thread(()->{
+            for(int i=1;i<=10;i++) {
+                System.out.println("within thread: "+Thread.currentThread().getName()+" "+i);
+            }
+        });
+        t.setName("First Thread");
+        t.start();
+        Set<Integer> s=new TreeSet<Integer>((a,b)->b.compareTo(a));
+        s.add(10);
+        s.add(12);
+        s.add(6);
+        System.out.println(s);
+    }
+    
+    static void doSomething(H h,String n) {
+        System.out.println("message: "+h.getMessage(n));
+    }
+}
+
+
+
+
+
+
+
+package com.boa.training.functional;
+
+interface I{
+    String process(String a,String b);
+}
+interface J{
+    int getData();
+}
+
+public class LambdaTest8 {
+public static void main(String[] args) {
+    I i1=getDetails();
+    System.out.println(i1.process("hello", "world"));
+    J j2=testData((x,y)->{
+    System.out.println("invoking process method with parameters "+x+" and "+y); 
+    return "Welcome "+x+" "+y;
+    },"John","Hopkins");
+    int data=j2.getData();
+    System.out.println("data: "+data);
+}
+
+static I getDetails()
+{
+    return (x,y)->(x+" "+y).toUpperCase();
+}
+
+static J testData(I i,String s1,String s2) {
+    String result=i.process(s1, s2);
+    return ()->{
+        System.out.println("invoking getData method ");
+        return result.length()+5;//"Welcome John Hopkins".length()+5
+    };
+}
+}
+
+
+Exercise:
+
+interface I1{
+    double compute(int x);
+}
+
+interface I2{
+    String format(double d);
+}
+
+
+class P{
+    static void test(I1 i1,I2 i2,int value)
+    {
+    double d=i1.compute(value);
+    String s=i2.format(d);
+    System.out.println(s);
+    }
+}
+
+
+sample implementation of  I1 ---- should return square root of the parameter
+sample implementation of I2-------should return "value: "+parameter
+
+Invoke test method with suitable lambda expressions.
+//Solution BK
+package com.boa.training.LambdaExpressions;
+
+interface I1{   
+    double compute (int x);
+}
+interface I2{
+    String format(double d);
+}
+
+public class Exercise {
+    public static void main(String[] args) {
+        test((a)-> Math.sqrt(a),(b)->"value "+String.valueOf(b),16);
+    }
+    static void test(I1 i1, I2 i2, int value) {
+        double d = i1.compute(value);
+        
+        String s= i2.format(d);
+        System.out.println(s);
+    }
+}
+
+
+
+package com.boa.training.functional;
+
+interface K{
+    default void sample() {
+        System.out.println("sample method of interface K");
+    }
+}
+interface L{
+    default void next() {
+        System.out.println("next method of interface L");
+    }
+}
+
+class M implements K,L{
+    void test() {
+        sample();
+        next();
+    }
+}
+
+public class DefaultMethodsTest {
+public static void main(String[] args) {
+    M m=new M();
+    m.test();
+}
+}
+
+
+
+package com.boa.training.functional;
+
+interface J1{
+    default void test() {
+        System.out.println("test method of J1");
+    }
+}
+
+interface J2{
+    default void test() {
+        System.out.println("test method of J2");
+    }
+}
+
+
+
+
+
+
+package com.boa.training.functional;
+interface R{
+    static void method1() {
+        System.out.println("static method1 of R");
+    }
+    static void method2() {
+        System.out.println("static method2 of R");
+    }
+    default void method3() {
+        System.out.println("default method3 of R");
+    }
+    default void method4() {
+        System.out.println("default method4 of R");
+    }
+    void method5();
+    
+}
+
+public class StaticMethodTest {
+public static void main(String[] args) {
+    R r=()->System.out.println("method5 of R");
+    r.method3();
+    r.method4();
+    R.method1();
+    R.method2();
+    r.method5();
+}
+}
+
+
+package com.boa.training.functional;
+
+class Utility{
+    static void method1(String s) {
+        System.out.println("method1 with "+s+" as argument");
+    }
+
+    static String method2(String s) {
+        System.out.println("method2 with "+s+" as argument");
+        return s.toUpperCase();
+    }
+
+    static String method3(String s1,String s2) {
+        System.out.println("method3 with "+s1+" and "+s2+" as arguments");
+        return s1+" "+s2;
+    }
+
+}
+
+interface K1{
+    void test(String a);
+}
+interface K2{
+    String test(String a);
+}
+
+interface K3{
+    String test(String a,String b);
+}
+
+
+public class StaticMethodReferenceTest {
+public static void main(String[] args) {
+    //you are informing the test method of k1 will have the same logic as method1 in Utility
+    K1 k1=Utility::method1; 
+    //you are informing the test method of k2 will have the same logic as method2 in Utility
+    K2 k2=Utility::method2;
+    //you are informing the test method of k3 will have the same logic as method3 in Utility
+    K3 k3=Utility::method3;
+    k1.test("hello");
+    System.out.println(k2.test("hello"));
+    System.out.println(k3.test("hello", "world"));
+}
+}
+
+
+
+package com.boa.training.functional;
+
+class P {
+    private int i;
+
+    public P(int i) {
+        super();
+        this.i = i;
+    }
+
+    int compute(int a) {
+        return i * a;
+    }
+}
+
+interface Q{
+    int test(P p,int v);
+}
+
+class S{
+    int next(P p1,int value) {
+        return p1.compute(value);
+    }
+}
+
+public class NonStaticMethodReferenceTest1 {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        P p1=new P(5);
+        System.out.println("using class method reference");
+        Q q=P::compute;
+        int result=q.test(p1, 3);
+        System.out.println(result);
+        System.out.println("using lambda expression");
+        q=(p,v)->p.compute(v);
+        result=q.test(p1, 3);
+        System.out.println(result);
+        System.out.println("using object method reference");
+        S s=new S();
+        q=s::next;
+        result=q.test(p1, 3);
+        System.out.println(result);
+        
+    }
+
+}
+
+
+package com.boa.training.functional;
+
+import java.util.Set;
+
+interface T{
+    String[] test(String s1,String s2);
+}
+
+public class NonStaticMethodReferenceTest2 {
+public static void main(String[] args) {
+    String s="the cat sat on the mat";
+    T t1=String::split;
+    System.out.println("using method reference");
+    String[] arr=t1.test(s, " ");
+    for(String a:arr) {
+        System.out.println(a);
+    }
+    
+    System.out.println("using lambda expression");
+    t1=(s1,s2)->s1.split(s2);
+    arr=t1.test(s, " ");
+    for(String a:arr) {
+        System.out.println(a);
+    }
+    
+    
+    
+}
+}
+
+package com.boa.training.methodref;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+
+class Person{
+    private String name;
+    private String gender;
+    private int age;
+    public Person(String name, String gender, int age) {
+        super();
+        this.name = name;
+        this.gender = gender;
+        this.age = age;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getGender() {
+        return gender;
+    }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+    @Override
+    public String toString() {
+        return "Person [name=" + name + ", gender=" + gender + ", age=" + age + "]";
+    }
+    
+    
+}
+
+class PersonList{
+    private Map<String, Person> listOfPersons=new HashMap<String, Person>();
+    
+    PersonList() {
+        listOfPersons.put("Arvind", new Person("Arvind","Male", 30));
+        listOfPersons.put("Surya", new Person("Surya","Male", 28));
+        listOfPersons.put("Priya", new Person("Priya","Female", 25));
+    }
+    
+    public Person getPerson(String name) {
+        return listOfPersons.get(name);
+    }
+    
+}
+
+class PersonUtility{
+    public Person getPersonData(PersonList list,String name) {
+        return list.getPerson(name);
+    }
+}
+
+interface I{
+    Person getData(PersonUtility utility,PersonList list,String name);
+}
+
+public class MethodRefTest3 {
+public static void main(String[] args) {
+    I i=(utility,list,name)->utility.getPersonData(list, name);
+    PersonUtility utility=new PersonUtility();
+    PersonList list=new PersonList();
+    
+    System.out.println(i.getData(utility, list, "Surya"));
+    
+    i=PersonUtility::getPersonData;
+    System.out.println(i.getData(utility, list, "Surya"));
+}
+}
+
+
+package com.boa.training.methodref;
+
+class Customer{
+    private int id;
+    private String name;
+    private String email;
+    public Customer(int id, String name, String email) {
+        super();
+        System.out.println("invoking constructor with 3 args");
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+    public Customer() {
+        super();
+        System.out.println("invoking constructor without args");
+    }
+    public Customer(int id, String name) {
+        super();
+        System.out.println("invoking constructor with 2 args");
+        this.id = id;
+        this.name = name;
+    }
+    public Customer(int id) {
+        super();
+        System.out.println("invoking constructor with 1 arg");
+        this.id = id;
+    }
+    @Override
+    public String toString() {
+        return "Customer [id=" + id + ", name=" + name + ", email=" + email + "]";
+    }
+    
+    
+}
+
+@FunctionalInterface
+interface CustomerFactory1{
+    Customer createCustomer();
+}
+
+@FunctionalInterface
+interface CustomerFactory2{
+    Customer createCustomer(int id);
+}
+@FunctionalInterface
+interface CustomerFactory3{
+    Customer createCustomer(int id,String name);
+}
+@FunctionalInterface
+interface CustomerFactory4{
+    Customer createCustomer(int id,String name,String mail);
+}
+public class ConstructorRefTest {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+
+        CustomerFactory1 factory1=Customer::new;
+        CustomerFactory2 factory2=Customer::new;
+        CustomerFactory3 factory3=Customer::new;
+        CustomerFactory4 factory4=Customer::new;
+        
+        System.out.println(factory1.createCustomer());
+        System.out.println(factory2.createCustomer(1001));
+        System.out.println(factory3.createCustomer(5001,"Ramesh"));
+        System.out.println(factory4.createCustomer(6001,"Amar","amar@gmail.com"));
+    }
+
+}
+
+
+package com.boa.training.streams;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class StreamTest1 {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        
+        List<Integer> list=Arrays.asList(4,9,10,12,6);
+        Stream<Integer> stream1=list.stream();
+        
+        Stream<Double> stream2=stream1.map(x->Math.sqrt(x));
+        stream2.forEach(x->System.out.println(x));
+        System.out.println("with chaining");
+        list.stream().map(x->Math.sqrt(x)).forEach(x->System.out.println(x));
+    }
+
+}
+
+
+
+
+https://drive.google.com/drive/folders/1r-XXWBTbz3WVNmu0_X37uw60SrIdM_B1?usp=drive_link
+

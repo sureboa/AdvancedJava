@@ -1,0 +1,265 @@
+3 Programming Paradigms:
+
+Procedural Programming:
+Follows a top down approach. There is a main function which inturn invokes other functions or subroutines.
+
+Examples: C,Pascal,Fortran
+
+Object Oriented Programming:
+
+Every real world component is modelled as an object.
+
+Every real world component has state and behaviour.
+
+For example, if person is a real world component name and age are examples of state and speaking and walking
+are examples of behaviours.
+
+State is modelled as data and behaviour is modelled as method.
+
+The data and method are encapsulated within a class.
+
+Class is the blue print for the object.
+Object is instance of a class.
+
+Examples: C++,Java,C#
+
+Functional Programming:
+
+Functions are building blocks of an application.
+Functions are treated as expressions, parameter to functions and return values of functions.
+
+Functional programming supports the following features:
+
+1. A function can be passed as an argument to another function
+2. A function can return another function
+3. Anonymous functions(Functions without names)
+
+Examples: Scala,Groovy,Python
+
+
+Functional Interface:
+
+Functional interface is an interface which contains exactly one abstract method.
+
+interface Sample{
+	String message(String name);
+}
+
+
+
+
+The implementation of the abstract method in the functional interface can be as shown below.
+
+(argument list)->method body
+
+
+This is the syntax of lambda expression.
+The lambda expression is providing the  implementation of the only abstract method in the functional interface.
+
+->--------------lambda symbol
+anything left to lambda symbol is the argument list
+anything right to lambda symbol is the body of the method.
+If the body has only statement, braces and return statement are not required.
+
+implementation of Sample interface can be lambda expressions with any of the following syntax:
+
+(String s)->"Welcome "+s
+
+(s)->"Welcome "+s //type is not mandatory for the parameter
+
+s->"Welcome "+s //bracket is not mandatory if there is a single argument
+
+
+From java 8, an interface can have non abstract methods defined within it.
+The non abstract methods should be prefixed with the keyword default.
+
+
+
+Anonymous functions are implemented with lambda expressions.
+
+
+
+interface I{
+	String process(String s);	
+}
+
+
+I getData()
+{
+return s->s.toUpperCase();
+}
+
+
+Exercise:
+
+interface I1{
+	double compute(int x);
+}
+
+interface I2{
+	String format(double d);
+}
+
+
+class P{
+	static void test(I1 i1,I2 i2,int value)
+	{
+	double d=i1.compute(value);
+	String s=i2.format(d);
+	System.out.println(s);
+	}
+}
+
+
+sample implementation of  I1 ---- should return square root of the parameter
+sample implementation of I2-------should return "value: "+parameter
+
+Invoke test method with suitable lambda expressions.
+
+@FunctionalInterface:
+
+By default any interface with exactly one abstract method acts as a functional interface.
+In future, if another abstract method is added to the interface , it becomes  a non functional interface.
+
+If any one had already implemented this function interface with lambda expression, that code becomes invalid.
+
+If you want to restrict others from adding more abstract methods to the functional interface, you should explicitly
+prefix it with @FunctionalInterface annotation.
+
+
+From java 8, static methods can be defined within an interface.
+
+Method References:
+
+Method Reference is used to refer the abstract method of a functional interface.
+It is compact and easy form of lambda expression.
+Instead of each time using lambda expression to refer just a method, you can replace the lambda expression with
+method reference.
+
+Syntax of method reference:
+
+className::methodName
+objectName::methodName
+
+
+3 types of method references:
+
+1. reference to a static method
+2. reference to a non static method
+3. reference to constructor
+
+
+reference to a static method:
+
+class P{
+	static void method1(String name){
+	..................
+	}
+}
+
+@FunctionalInterface
+interface I{
+	void test(String s);
+}
+
+
+
+I i1=s->P.method1(s);
+
+can be written as
+
+I i1=P::method1;
+
+
+reference to non static method:
+
+If the abstract method of a functional interface is defined using the lambda expression
+ (obj,args)->obj.instanceMethod(args), the method reference can be defined as 
+className::instanceMethod.
+
+interface A{
+	String getData(String s);
+}
+
+s->s.toUppercase()----------String::toUppercase
+interface B{
+	int getData(String s1,String s2)
+}
+
+(x,y)->x.indexOf(y)----------String::indexOf
+
+
+Constructor Reference:
+
+Constructor reference can be created using the class name and the new operator.
+A constructor reference can be assigned to any functional interface reference that defines a method which 
+is compatible with the constructor.
+
+interface CustomerFactory1{
+	Customer createCustomer();
+}
+
+interface CustomerFactory2{
+	Customer createCustomer(int id);
+}
+
+class Customer{
+	Customer(){
+	}
+	Customer(int id){
+	}
+................
+
+}
+
+CustomerFactory1 factory1=Customer::new;//no argument constructor
+
+CustomerFactory2 factory2=Customer::new;//constructor with one int argument
+
+
+Customer c1=factory1.createCustomer(); //no argument constructor is invoked
+Customer c2=factory2.createCustomer(1001);//invokes the constructor with one int argument.
+
+
+
+Java Streams API:
+
+It is used to process collections of objects.
+A stream in java is a sequence of objects that supports various methods which can be pipelined to produce
+the desired result.
+
+
+
+Stream is not a datastructure instead it takes input from collections,arrays or I/O channels.
+
+Stream supports 2 types of operations:
+
+1. intermediate operation---------returns another stream
+2. terminal operation--------------computes values.
+
+Examples of intermediate operation: map,filter,sorted,flatMap
+Examples of terminal operation: collect,forEach,reduce
+
+interface Stream<T>{
+	Stream<R> map(Function<T,R> f);
+	void forEach(Consumer<T> c);
+}
+
+interface Function<T,R>{
+	R apply(T t);
+}
+
+	
+The map method invokes the apply method of the Function to each element in the stream and returns another 
+steam with transformed elements.
+
+x->x*2
+
+stream1.map(x->x*2)
+
+
+interface Consumer<T>{
+	void accept(T t);
+}
+
+stream1.forEach(t->System.out.println(t));
